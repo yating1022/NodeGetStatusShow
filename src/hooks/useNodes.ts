@@ -113,7 +113,6 @@ export function useNodes(config: SiteConfig | null) {
         for (const uuid of uuids) seed.set(uuid, blankAgent(uuid, source))
       }
       setAgents(seed)
-      setLoading(false)
 
       await Promise.all(
         pool.entries.map(async entry => {
@@ -155,7 +154,8 @@ export function useNodes(config: SiteConfig | null) {
         }),
       )
 
-      tickDynamic()
+      await tickDynamic()
+      setLoading(false)
     }
 
     const tickDynamic = async () => {

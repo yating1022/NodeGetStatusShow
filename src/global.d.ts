@@ -1,5 +1,6 @@
 declare module 'rpc-websockets' {
   type Listener = (...args: any[]) => void
+  type GenerateRequestId = (method: string, params: object | unknown[]) => number | string
   interface ClientOptions {
     autoconnect?: boolean
     reconnect?: boolean
@@ -7,7 +8,7 @@ declare module 'rpc-websockets' {
     max_reconnects?: number
   }
   export class Client {
-    constructor(url: string, opts?: ClientOptions)
+    constructor(url: string, opts?: ClientOptions, generateRequestId?: GenerateRequestId)
     call(method: string, params?: any, timeout?: number): Promise<any>
     close(): void
     on(event: string, fn: Listener): void

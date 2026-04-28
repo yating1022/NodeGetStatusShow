@@ -7,10 +7,12 @@ export function ViewToggle({ value, onChange }: { value: View; onChange: (v: Vie
     <Tabs value={value} onValueChange={v => onChange(v as View)}>
       <TabsList>
         <TabsTrigger value="cards">
-          <LayoutGrid className="h-3.5 w-3.5" /> 卡片
+          <LayoutGrid className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">卡片</span>
         </TabsTrigger>
         <TabsTrigger value="table">
-          <Table className="h-3.5 w-3.5" /> 表格
+          <Table className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">表格</span>
         </TabsTrigger>
       </TabsList>
     </Tabs>

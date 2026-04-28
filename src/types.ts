@@ -11,13 +11,15 @@ export interface NodeMeta {
 export interface StaticSystem {
   system_name?: string
   system_host_name?: string
-  system_version?: string
-  system_kernel_version?: string
-  cpu_arch?: string
-  system_os_version?: string
   system_kernel?: string
+  system_kernel_version?: string
+  system_os_version?: string
+  system_os_long_version?: string
+  distribution_id?: string
   arch?: string
   virtualization?: string
+  cpu_arch?: string
+  system_version?: string
 }
 
 export interface StaticCpu {

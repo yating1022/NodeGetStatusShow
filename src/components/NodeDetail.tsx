@@ -58,26 +58,28 @@ export function NodeDetail({ node, onClose }: { node: Node | null; onClose: () =
   return (
     <div className="fixed inset-0 z-50 bg-background overflow-y-auto animate-in fade-in duration-150">
       <div className="sticky top-0 z-10 backdrop-blur bg-background/85 border-b">
-        <div className="max-w-5xl mx-auto px-6 py-3 flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label="返回">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center gap-2 sm:gap-3">
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="返回" className="shrink-0">
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <StatusDot online={node.online} />
           {logo && (
             <img src={logo} alt="" className="w-5 h-5 shrink-0 object-contain" loading="lazy" />
           )}
-          <span className="font-semibold truncate">{displayName(node)}</span>
+          <span className="font-semibold truncate min-w-0">{displayName(node)}</span>
           {flag && (
-            <span className="text-base leading-none" title={node.meta?.region}>
+            <span className="text-base leading-none shrink-0" title={node.meta?.region}>
               {flag}
             </span>
           )}
-          <span className="hidden sm:inline truncate text-xs font-mono text-muted-foreground">
+          <span className="hidden md:inline truncate text-xs font-mono text-muted-foreground">
             {node.uuid}
           </span>
-          <div className="ml-auto flex flex-wrap gap-1.5">
+          <div className="ml-auto flex flex-wrap gap-1.5 shrink-0">
             {node.meta?.region && <Badge variant="secondary">{node.meta.region}</Badge>}
-            <Badge variant="secondary">{node.source}</Badge>
+            <Badge variant="secondary" className="hidden sm:inline-flex">
+              {node.source}
+            </Badge>
             {virt && <Badge variant="secondary">{virt}</Badge>}
             {tags.map(t => (
               <Badge key={t} variant="outline">
@@ -88,7 +90,7 @@ export function NodeDetail({ node, onClose }: { node: Node | null; onClose: () =
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8">
         <Section title="资源">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
             <BarRow label="CPU" value={u.cpu} />
@@ -154,7 +156,7 @@ export function NodeDetail({ node, onClose }: { node: Node | null; onClose: () =
             <KV k="主机名" v={s?.system_host_name} />
             <KV k="操作系统" v={osLabel(node)} />
             <KV k="内核" v={s?.system_kernel_version || s?.system_kernel} />
-            <KV k="CPU 架构" v={s?.cpu_arch || s?.arch} />
+            <KV k="CPU 架构" v={s?.arch || s?.cpu_arch} />
             <KV k="虚拟化" v={virt} />
             <KV k="CPU 型号" v={cpu?.brand || cpu?.per_core?.[0]?.brand} />
             <KV

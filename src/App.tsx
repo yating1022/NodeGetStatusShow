@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { AlertTriangle } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 import { useConfig } from './hooks/useConfig'
 import { useNodes } from './hooks/useNodes'
@@ -9,46 +9,94 @@ import { Footer } from './components/Footer'
 import { NodeCard } from './components/NodeCard'
 import { NodeTable } from './components/NodeTable'
 import { NodeDetail } from './components/NodeDetail'
+import { TagFilter } from './components/TagFilter'
 import type { View } from './types'
 
-const DEFAULT_LOGO = 'https://nodeget-docs.pages.dev/logo.png'
+const DEFAULT_LOGO = `${import.meta.env.BASE_URL}logo.png`
+const VIEW_KEY = 'nodeget.view'
+
+function initialView(): View {
+  const v = localStorage.getItem(VIEW_KEY)
+  return v === 'table' ? 'table' : 'cards'
+}
+
+function readHash() {
+  return decodeURIComponent(window.location.hash.slice(1)) || null
+}
 
 export function App() {
   const { config, error: configError } = useConfig()
-  const { nodes, errors, loading } = useNodes(config)
+  const { nodes, errors } = useNodes(config)
 
-  const [view, setView] = useState<View>('cards')
+  const [view, setView] = useState<View>(initialView)
   const [query, setQuery] = useState('')
-  const [selected, setSelected] = useState<string | null>(null)
+  const [activeTag, setActiveTag] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(readHash)
+
+  useEffect(() => {
+    localStorage.setItem(VIEW_KEY, view)
+  }, [view])
+
+  useEffect(() => {
+    const onHash = () => setSelected(readHash())
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  useEffect(() => {
+    const target = selected ? `#${encodeURIComponent(selected)}` : ''
+    if (window.location.hash === target) return
+    if (selected) {
+      window.location.hash = encodeURIComponent(selected)
+    } else {
+      history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+  }, [selected])
+
+  const allTags = useMemo(() => {
+    const set = new Set<string>()
+    for (const n of nodes.values()) {
+      if (n.meta?.hidden) continue
+      for (const t of n.meta?.tags ?? []) set.add(t)
+    }
+    return [...set].sort()
+  }, [nodes])
+
+  useEffect(() => {
+    if (activeTag && !allTags.includes(activeTag)) setActiveTag(null)
+  }, [allTags, activeTag])
 
   const list = useMemo(() => {
-    const arr = [...nodes.values()].filter(n => !n.meta?.hidden)
+    let arr = [...nodes.values()].filter(n => !n.meta?.hidden)
+    if (activeTag) arr = arr.filter(n => n.meta?.tags?.includes(activeTag))
+
     const q = query.trim().toLowerCase()
-    const filtered = q
-      ? arr.filter(n => {
-          const hay = [
-            n.uuid,
-            n.source,
-            n.meta?.name,
-            n.meta?.region,
-            n.meta?.virtualization,
-            n.static?.system?.system_host_name,
-            n.static?.system?.system_name,
-            ...(Array.isArray(n.meta?.tags) ? n.meta.tags : []),
-          ]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase()
-          return hay.includes(q)
-        })
-      : arr
-    return filtered.sort((a, b) => {
+    if (q) {
+      arr = arr.filter(n => {
+        const hay = [
+          n.uuid,
+          n.source,
+          n.meta?.name,
+          n.meta?.region,
+          n.meta?.virtualization,
+          n.static?.system?.system_host_name,
+          n.static?.system?.system_name,
+          ...(n.meta?.tags ?? []),
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+        return hay.includes(q)
+      })
+    }
+
+    return arr.sort((a, b) => {
       if (a.online !== b.online) return a.online ? -1 : 1
       const an = a.meta?.name || a.uuid
       const bn = b.meta?.name || b.uuid
       return an.localeCompare(bn)
     })
-  }, [nodes, query])
+  }, [nodes, query, activeTag])
 
   const selectedNode = selected ? nodes.get(selected) || null : null
 
@@ -88,11 +136,17 @@ export function App() {
         onView={setView}
       />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-8 space-y-6">
-        {empty && loading && (
-          <div className="py-20 text-center text-muted-foreground">连接后端中…</div>
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+        {!empty && <TagFilter tags={allTags} active={activeTag} onChange={setActiveTag} />}
+
+        {empty && !hasErrors && (
+          <div className="py-24 flex flex-col items-center gap-3 text-muted-foreground">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="text-sm">连接后端中…</span>
+          </div>
         )}
-        {empty && !loading && !hasErrors && (
+
+        {empty && hasErrors && (
           <div className="py-20 text-center text-muted-foreground">暂无节点</div>
         )}
 

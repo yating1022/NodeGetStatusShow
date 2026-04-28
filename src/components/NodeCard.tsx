@@ -38,11 +38,6 @@ export function NodeCard({ node, onOpen }: Props) {
         <span className="font-semibold flex-1 min-w-0 truncate" title={displayName(node)}>
           {displayName(node)}
         </span>
-        {virt && (
-          <Badge variant="outline" className="shrink-0 text-[10px] uppercase tracking-wide">
-            {virt}
-          </Badge>
-        )}
         {flag && (
           <span className="shrink-0 text-base leading-none" title={node.meta?.region}>
             {flag}
@@ -50,7 +45,11 @@ export function NodeCard({ node, onOpen }: Props) {
         )}
       </div>
 
-      {os && <div className="font-mono text-xs text-muted-foreground">{os}</div>}
+      {(os || virt) && (
+        <div className="font-mono text-xs text-muted-foreground truncate">
+          {[os, virt].filter(Boolean).join(' · ')}
+        </div>
+      )}
 
       <div className="flex flex-col gap-2.5">
         <Metric label="CPU" value={u.cpu} />
@@ -66,11 +65,15 @@ export function NodeCard({ node, onOpen }: Props) {
         />
       </div>
 
-      <div className="pt-2.5 border-t border-dashed flex flex-wrap items-center gap-3 font-mono text-xs text-muted-foreground">
-        <Stat icon={ArrowDown}>{bytes(u.netIn || 0)}/s</Stat>
-        <Stat icon={ArrowUp}>{bytes(u.netOut || 0)}/s</Stat>
-        <Stat icon={Clock}>{uptime(u.uptime)}</Stat>
-        <span className="ml-auto">{relativeAge(u.ts)}</span>
+      <div className="pt-2.5 border-t border-dashed font-mono text-xs text-muted-foreground space-y-1.5">
+        <div className="flex items-center gap-3">
+          <Stat icon={ArrowDown}>{bytes(u.netIn || 0)}/s</Stat>
+          <Stat icon={ArrowUp}>{bytes(u.netOut || 0)}/s</Stat>
+        </div>
+        <div className="flex items-center gap-3">
+          <Stat icon={Clock}>{uptime(u.uptime)}</Stat>
+          <span className="ml-auto">{relativeAge(u.ts)}</span>
+        </div>
       </div>
 
       {tags.length > 0 && (

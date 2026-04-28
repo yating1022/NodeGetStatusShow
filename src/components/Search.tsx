@@ -3,7 +3,7 @@ import { Input } from './ui/input'
 
 export function Search({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
-    <div className="relative w-56">
+    <div className="relative w-32 sm:w-44 md:w-56">
       <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
       <Input
         type="search"

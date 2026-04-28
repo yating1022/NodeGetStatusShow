@@ -2,6 +2,12 @@ import { Client } from 'rpc-websockets'
 
 const CONNECT_TIMEOUT_MS = 8000
 
+let seq = 0
+const nextRequestId = () => {
+  seq = (seq + 1) >>> 0
+  return seq * 0x100000 + Math.floor(Math.random() * 0x100000)
+}
+
 export class RpcClient {
   private token: string
   private client: Client
@@ -9,12 +15,16 @@ export class RpcClient {
 
   constructor(url: string, token: string) {
     this.token = token
-    this.client = new Client(url, {
-      autoconnect: true,
-      reconnect: true,
-      reconnect_interval: 2000,
-      max_reconnects: Number.POSITIVE_INFINITY,
-    })
+    this.client = new Client(
+      url,
+      {
+        autoconnect: true,
+        reconnect: true,
+        reconnect_interval: 2000,
+        max_reconnects: Number.POSITIVE_INFINITY,
+      },
+      nextRequestId,
+    )
 
     this.opened = new Promise<void>((resolve, reject) => {
       const cleanup = () => {

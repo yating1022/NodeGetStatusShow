@@ -28,7 +28,8 @@ export function displayName(node: Node) {
 export function osLabel(node: Node) {
   const s = node.static?.system
   if (!s) return ''
-  return [s.system_name, s.system_version || s.system_os_version].filter(Boolean).join(' ')
+  if (s.system_os_long_version) return s.system_os_long_version
+  return [s.system_name, s.system_os_version || s.system_version].filter(Boolean).join(' ')
 }
 
 export function regionFlag(code?: string | null) {
@@ -49,7 +50,7 @@ const DISTROS = [
   { file: 'fedora.svg', match: ['fedora'] },
   { file: 'rocky.svg', match: ['rocky'] },
   { file: 'oracle.svg', match: ['oracle'] },
-  { file: 'redhat.svg', match: ['red hat', 'redhat', 'rhel'] },
+  { file: 'redhat.svg', match: ['red hat', 'redhat', 'rhel', 'almalinux'] },
   { file: 'centos.svg', match: ['centos'] },
   { file: 'gentoo.svg', match: ['gentoo'] },
   { file: 'nixos.svg', match: ['nix'] },
@@ -60,7 +61,9 @@ const DISTROS = [
 
 export function distroLogo(node: Node) {
   const s = node.static?.system
-  const hay = `${s?.system_name || ''} ${s?.system_version || s?.system_os_version || ''}`
+  const hay = [s?.distribution_id, s?.system_name, s?.system_os_version, s?.system_version]
+    .filter(Boolean)
+    .join(' ')
     .toLowerCase()
     .trim()
   if (!hay) return ''
@@ -83,9 +86,38 @@ const VIRT_LABELS: Record<string, string> = {
   dedicated: '独服',
 }
 
+function normalizeVirt(raw: string) {
+  const key = raw.toLowerCase().trim()
+  if (!key || key === 'none') return ''
+  return VIRT_LABELS[key] || raw
+}
+
 export function virtLabel(node: Node) {
-  const v = node.meta?.virtualization
-  if (!v) return ''
-  const key = String(v).toLowerCase().trim()
-  return VIRT_LABELS[key] || v
+  const fromKv = node.meta?.virtualization
+  if (fromKv) {
+    const v = normalizeVirt(String(fromKv))
+    if (v) return v
+  }
+  const fromApi = node.static?.system?.virtualization
+  if (fromApi) {
+    const v = normalizeVirt(String(fromApi))
+    if (v) return v
+  }
+  return detectVirt(node)
+}
+
+function detectVirt(node: Node) {
+  const s = node.static?.system
+  const cpu = node.static?.cpu
+  const kernel = (s?.system_kernel_version || s?.system_kernel || '').toLowerCase()
+  const brand = (cpu?.brand || cpu?.per_core?.[0]?.brand || '').toLowerCase()
+
+  if (kernel.includes('microsoft') || kernel.includes('wsl')) return 'WSL'
+  if (kernel.includes('pve')) return 'Proxmox'
+  if (brand.includes('hyper-v') || brand.includes('microsoft hyper')) return 'Hyper-V'
+  if (brand.includes('vmware')) return 'VMware'
+  if (brand.includes('xen')) return 'Xen'
+  if (brand.includes('kvm') || brand.includes('qemu')) return 'KVM'
+  if (/-aws|-azure|-gcp|-oracle/.test(kernel)) return 'KVM'
+  return ''
 }
