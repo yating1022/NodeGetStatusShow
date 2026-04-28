@@ -1,0 +1,91 @@
+import type { Node, Usage } from '../types'
+
+export function deriveUsage(node: Node): Usage {
+  const d = node.dynamic
+  const memUsed = d?.used_memory ?? 0
+  const memTotal = d?.total_memory ?? 0
+  const diskTotal = d?.total_space ?? 0
+  const diskUsed = diskTotal && d?.available_space != null ? diskTotal - d.available_space : 0
+  return {
+    cpu: d?.cpu_usage,
+    mem: memTotal ? (memUsed / memTotal) * 100 : undefined,
+    memUsed,
+    memTotal,
+    disk: diskTotal ? (diskUsed / diskTotal) * 100 : undefined,
+    diskUsed,
+    diskTotal,
+    netIn: d?.receive_speed,
+    netOut: d?.transmit_speed,
+    uptime: d?.uptime,
+    ts: d?.timestamp,
+  }
+}
+
+export function displayName(node: Node) {
+  return node.meta?.name || node.static?.system?.system_host_name || node.uuid.slice(0, 8)
+}
+
+export function osLabel(node: Node) {
+  const s = node.static?.system
+  if (!s) return ''
+  return [s.system_name, s.system_version || s.system_os_version].filter(Boolean).join(' ')
+}
+
+export function regionFlag(code?: string | null) {
+  const c = code?.trim().toUpperCase() || ''
+  if (!/^[A-Z]{2}$/.test(c)) return ''
+  return String.fromCodePoint(...[...c].map(ch => 0x1f1e6 + ch.charCodeAt(0) - 65))
+}
+
+const LOGO_BASE = `${import.meta.env.BASE_URL}linux-logo-icon/`
+
+const DISTROS = [
+  { file: 'archlinux.svg', match: ['arch'] },
+  { file: 'manjaro.svg', match: ['manjaro'] },
+  { file: 'kali.svg', match: ['kali'] },
+  { file: 'ubuntu.svg', match: ['ubuntu'] },
+  { file: 'mint.svg', match: ['mint'] },
+  { file: 'debian.svg', match: ['debian'] },
+  { file: 'fedora.svg', match: ['fedora'] },
+  { file: 'rocky.svg', match: ['rocky'] },
+  { file: 'oracle.svg', match: ['oracle'] },
+  { file: 'redhat.svg', match: ['red hat', 'redhat', 'rhel'] },
+  { file: 'centos.svg', match: ['centos'] },
+  { file: 'gentoo.svg', match: ['gentoo'] },
+  { file: 'nixos.svg', match: ['nix'] },
+  { file: 'zorin.svg', match: ['zorin'] },
+  { file: 'freebsd.svg', match: ['freebsd', 'bsd'] },
+  { file: 'windows.svg', match: ['windows', 'microsoft'] },
+]
+
+export function distroLogo(node: Node) {
+  const s = node.static?.system
+  const hay = `${s?.system_name || ''} ${s?.system_version || s?.system_os_version || ''}`
+    .toLowerCase()
+    .trim()
+  if (!hay) return ''
+  for (const { file, match } of DISTROS) {
+    if (match.some(k => hay.includes(k))) return `${LOGO_BASE}${file}`
+  }
+  return `${LOGO_BASE}linux.svg`
+}
+
+const VIRT_LABELS: Record<string, string> = {
+  kvm: 'KVM',
+  lxc: 'LXC',
+  openvz: 'OpenVZ',
+  vmware: 'VMware',
+  hyperv: 'Hyper-V',
+  'hyper-v': 'Hyper-V',
+  xen: 'Xen',
+  docker: 'Docker',
+  wsl: 'WSL',
+  dedicated: '独服',
+}
+
+export function virtLabel(node: Node) {
+  const v = node.meta?.virtualization
+  if (!v) return ''
+  const key = String(v).toLowerCase().trim()
+  return VIRT_LABELS[key] || v
+}
