@@ -7,6 +7,17 @@
 ;(function () {
   'use strict'
 
+  /* ─── 0. Default to light mode for first-time visitors ─── */
+  ;(function () {
+    try {
+      var stored = localStorage.getItem('nodeget.theme')
+      if (!stored) {
+        localStorage.setItem('nodeget.theme', 'light')
+        document.documentElement.classList.remove('dark')
+      }
+    } catch (_) {}
+  })()
+
   /* ─── 1. Preload Google Fonts ─── */
   function loadFonts() {
     var link = document.createElement('link')
