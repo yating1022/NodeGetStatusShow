@@ -1,1 +1,984 @@
-/* 你可以自定义这里 */
+/*
+ * Claymorphism — Custom CSS
+ * Fluffy, inflatable, macaron-colored digital clay.
+ * Every element is a soft object you want to poke.
+ */
+
+/* ─── Google Fonts (loaded via custom.js) ─── */
+
+/* ─── Design Tokens ─── */
+:root {
+  --clay-bg: #F0EEFF;
+  --clay-bg-card: #FFFFFF;
+  --clay-fg: #2D2B42;
+  --clay-muted-fg: #7C7A92;
+  --clay-accent: #8B5CF6;
+  --clay-secondary: #F472B6;
+  --clay-success: #6DD2A0;
+  --clay-warning: #FBCB6D;
+  --clay-border: rgba(139, 92, 246, 0.08);
+  --clay-radius-lg: 28px;
+  --clay-radius-md: 22px;
+  --clay-radius-sm: 16px;
+}
+
+.dark {
+  --clay-bg: #1a1730;
+  --clay-bg-card: #252240;
+  --clay-fg: #eeeaff5;
+  --clay-muted-fg: #a9a5c0;
+  --clay-accent: #a78bfa;
+  --clay-secondary: #f9a8d4;
+  --clay-border: rgba(139, 92, 246, 0.12);
+}
+
+/* ─── Base ─── */
+body {
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif !important;
+  background: var(--clay-bg) !important;
+  color: var(--clay-fg) !important;
+  font-weight: 500 !important;
+  line-height: 1.6 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Baloo 2', 'Nunito', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--clay-fg) !important;
+  line-height: 1.25 !important;
+}
+
+.font-semibold, .font-bold, .font-extrabold {
+  font-family: 'Baloo 2', 'Nunito', sans-serif !important;
+}
+
+/* ─── Background — Macaron gradient ─── */
+.bg-soft, .bg-background, [class*="bg-background"],
+.fixed.inset-0[class*="bg-"] {
+  background-color: var(--clay-bg) !important;
+  background-image:
+    radial-gradient(60rem 36rem at 12% -10%, rgba(139, 92, 246, 0.12), transparent 60%),
+    radial-gradient(48rem 32rem at 95% 0%, rgba(244, 114, 182, 0.10), transparent 60%),
+    radial-gradient(42rem 28rem at 85% 95%, rgba(109, 210, 160, 0.08), transparent 60%),
+    radial-gradient(38rem 30rem at 5% 90%, rgba(251, 203, 109, 0.08), transparent 60%) !important;
+  background-attachment: fixed !important;
+}
+
+.dark .bg-soft, .dark .bg-background, .dark [class*="bg-background"],
+.dark .fixed.inset-0[class*="bg-"] {
+  background-color: var(--clay-bg) !important;
+  background-image:
+    radial-gradient(rgba(139, 92, 246, 0.18) 1px, transparent 1px),
+    radial-gradient(rgba(162, 155, 254, 0.08) 0.5px, transparent 0.5px) !important;
+  background-size: 24px 24px, 12px 12px !important;
+  background-position: 0 0, 6px 6px !important;
+  background-attachment: fixed !important;
+}
+
+/* ─── Cards — Inflated clay ─── */
+.card-soft,
+[class*="rounded-xl"][class*="border"][class*="bg-card"],
+.rounded-xl.border.bg-card.text-card-foreground {
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-lg) !important;
+  padding: 1.75rem !important;
+  box-shadow:
+    8px 8px 16px rgba(150, 145, 190, 0.25),
+    -8px -8px 16px rgba(255, 255, 255, 0.9),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.8),
+    inset -4px -4px 8px rgba(150, 145, 190, 0.08) !important;
+  transition: all 400ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.dark .card-soft,
+.dark [class*="rounded-xl"][class*="border"][class*="bg-card"],
+.dark .rounded-xl.border.bg-card.text-card-foreground {
+  box-shadow:
+    8px 8px 16px rgba(0, 0, 0, 0.35),
+    -8px -8px 16px rgba(80, 70, 130, 0.12),
+    inset 4px 4px 8px rgba(80, 70, 130, 0.18),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-soft:hover,
+[class*="rounded-xl"][class*="border"][class*="bg-card"]:hover {
+  transform: translateY(-6px) scale(1.01) !important;
+  box-shadow:
+    14px 14px 28px rgba(150, 145, 190, 0.3),
+    -14px -14px 28px rgba(255, 255, 255, 0.95),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.9),
+    inset -4px -4px 8px rgba(150, 145, 190, 0.1) !important;
+}
+
+.dark .card-soft:hover,
+.dark [class*="rounded-xl"][class*="border"][class*="bg-card"]:hover {
+  box-shadow:
+    14px 14px 28px rgba(0, 0, 0, 0.4),
+    -14px -14px 28px rgba(80, 70, 130, 0.15),
+    inset 4px 4px 8px rgba(80, 70, 130, 0.2),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ─── Card Interior ─── */
+.card-soft [class*="border-t"][class*="border-dashed"] {
+  border-color: rgba(139, 92, 246, 0.1) !important;
+  border-style: dashed !important;
+}
+
+.card-soft [class*="rounded-md"][class*="border"][class*="bg-card\/50"],
+.card-soft [class*="rounded"][class*="border"][class*="p-3"] {
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-md) !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(150, 145, 190, 0.12),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.7) !important;
+}
+
+/* KV rows */
+.card-soft [class*="flex"][class*="justify-between"][class*="py-2"]:hover,
+.card-soft [class*="flex"][class*="justify-between"][class*="py-1\.5"]:hover {
+  background: rgba(139, 92, 246, 0.06) !important;
+  border-radius: var(--clay-radius-sm) !important;
+}
+
+/* Latency stats rows */
+.card-soft [class*="flex"][class*="items-center"][class*="justify-between"][class*="py-2"][class*="border-b"]:hover {
+  background: rgba(139, 92, 246, 0.05) !important;
+  border-radius: var(--clay-radius-sm) !important;
+}
+
+/* ─── Table — Clay interior ─── */
+.card-soft thead,
+.card-soft [class*="TableHead"],
+.card-soft th {
+  background: rgba(139, 92, 246, 0.04) !important;
+  border-bottom: none !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(150, 145, 190, 0.1),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.6) !important;
+  border-radius: var(--clay-radius-sm) !important;
+}
+
+.card-soft thead th:first-child { border-radius: var(--clay-radius-sm) 0 0 var(--clay-radius-sm) !important; }
+.card-soft thead th:last-child { border-radius: 0 var(--clay-radius-sm) var(--clay-radius-sm) 0 !important; }
+
+.card-soft tbody tr,
+.card-soft [class*="TableRow"] {
+  border-bottom: none !important;
+  border-radius: var(--clay-radius-sm) !important;
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.card-soft tbody tr:hover,
+.card-soft [class*="TableRow"]:hover {
+  background: rgba(139, 92, 246, 0.06) !important;
+  transform: translateX(4px) !important;
+  border-radius: var(--clay-radius-sm) !important;
+  box-shadow:
+    4px 4px 8px rgba(150, 145, 190, 0.12),
+    -4px -4px 8px rgba(255, 255, 255, 0.6) !important;
+}
+
+.dark .card-soft tbody tr:hover,
+.dark .card-soft [class*="TableRow"]:hover {
+  background: rgba(139, 92, 246, 0.08) !important;
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.2),
+    -4px -4px 8px rgba(80, 70, 130, 0.08) !important;
+}
+
+.card-soft td {
+  border-bottom: none !important;
+}
+
+.dark .card-soft thead,
+.dark .card-soft th {
+  background: rgba(139, 92, 246, 0.06) !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.15),
+    inset -3px -3px 6px rgba(80, 70, 130, 0.1) !important;
+}
+
+/* ─── Distro Logo ─── */
+img[src*="linux-logo-icon"],
+.card-soft img.w-5.h-5.shrink-0.object-contain {
+  border-radius: 50% !important;
+  padding: 3px;
+  background: rgba(139, 92, 246, 0.08);
+  box-shadow:
+    3px 3px 6px rgba(150, 145, 190, 0.2),
+    -3px -3px 6px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.06) !important;
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+img[src*="linux-logo-icon"]:hover,
+.card-soft img.w-5.h-5.shrink-0.object-contain:hover {
+  transform: scale(1.2) rotate(5deg) !important;
+}
+
+/* ─── Navbar ─── */
+header,
+header.sticky,
+header.fixed {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.5) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-lg) !important;
+  margin: 0.75rem !important;
+  box-shadow:
+    6px 6px 12px rgba(150, 145, 190, 0.2),
+    -6px -6px 12px rgba(255, 255, 255, 0.85),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.7),
+    inset -3px -3px 6px rgba(150, 145, 190, 0.05) !important;
+  position: sticky !important;
+  top: 0.5rem !important;
+}
+
+.dark header,
+.dark header.sticky,
+.dark header.fixed {
+  background: rgba(37, 34, 64, 0.88) !important;
+  box-shadow:
+    6px 6px 12px rgba(0, 0, 0, 0.35),
+    -6px -6px 12px rgba(80, 70, 130, 0.1),
+    inset 3px 3px 6px rgba(80, 70, 130, 0.18),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+header a span.font-semibold,
+header a span.font-bold {
+  font-family: 'Baloo 2', 'Nunito', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--clay-accent) !important;
+}
+
+/* ─── Buttons — Puffy clay ─── */
+button,
+[class*="inline-flex"][class*="items-center"][class*="justify-center"][class*="gap-2"][class*="rounded"],
+a[role="button"] {
+  border-radius: 999px !important;
+  font-family: 'Nunito', sans-serif !important;
+  font-weight: 700 !important;
+  min-height: 48px !important;
+  padding: 0 2rem !important;
+  border: none !important;
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* Icon buttons (size="icon" → h-9 w-9) */
+button.h-9.w-9,
+button[class*="h-9"][class*="w-9"],
+button.size-icon,
+button[class*="shrink-0"].h-9 {
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  border-radius: 14px !important;
+  color: var(--clay-fg) !important;
+  overflow: visible !important;
+  box-shadow:
+    4px 4px 8px rgba(150, 145, 190, 0.22),
+    -4px -4px 8px rgba(255, 255, 255, 0.85),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.65),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.06) !important;
+}
+
+.dark button.h-9.w-9,
+.dark button[class*="h-9"][class*="w-9"] {
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.3),
+    -4px -4px 8px rgba(80, 70, 130, 0.1),
+    inset 2px 2px 4px rgba(80, 70, 130, 0.15),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Theme toggle: outline variant */
+button.h-9.w-9[class*="border"][class*="bg-background"],
+button[class*="h-9"][class*="w-9"][class*="border"][class*="bg-background"] {
+  background: var(--clay-bg-card) !important;
+  border: 1.5px solid rgba(139, 92, 246, 0.15) !important;
+}
+
+/* Back button: ghost variant */
+button.h-9.w-9[class*="bg-transparent"][class*="shrink-0"],
+button[class*="h-9"][class*="w-9"][class*="shrink-0"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Icon button hover — float up */
+button.h-9.w-9:hover,
+button[class*="h-9"][class*="w-9"]:hover {
+  transform: translateY(-3px) !important;
+  box-shadow:
+    6px 6px 12px rgba(150, 145, 190, 0.28),
+    -6px -6px 12px rgba(255, 255, 255, 0.92),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.7),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.08) !important;
+}
+
+/* Icon button active — squish down */
+button.h-9.w-9:active,
+button[class*="h-9"][class*="w-9"]:active {
+  transform: scale(0.88) !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(150, 145, 190, 0.15),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.55) !important;
+}
+
+/* ─── SVG icon visibility ─── */
+button svg,
+a svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  width: 1em !important;
+  height: 1em !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  flex-shrink: 0 !important;
+}
+
+/* ─── ViewToggle — Clay segmented control ─── */
+.inline-grid.bg-muted {
+  background: rgba(139, 92, 246, 0.08) !important;
+  border-radius: var(--clay-radius-md) !important;
+  padding: 6px !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(150, 145, 190, 0.15),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .inline-grid.bg-muted {
+  background: rgba(139, 92, 246, 0.1) !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 8px rgba(80, 70, 130, 0.12) !important;
+}
+
+.inline-grid.bg-muted > div[aria-hidden] {
+  background: var(--clay-bg-card) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    4px 4px 8px rgba(150, 145, 190, 0.25),
+    -4px -4px 8px rgba(255, 255, 255, 0.85),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.65),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.06) !important;
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.dark .inline-grid.bg-muted > div[aria-hidden] {
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.3),
+    -4px -4px 8px rgba(80, 70, 130, 0.12),
+    inset 2px 2px 4px rgba(80, 70, 130, 0.18),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.inline-grid.bg-muted button {
+  border-radius: 14px !important;
+  min-height: auto !important;
+  padding: 6px 14px !important;
+  font-size: 0.8rem !important;
+  color: var(--clay-muted-fg) !important;
+  transition: color 300ms ease !important;
+}
+
+.inline-grid.bg-muted button[aria-pressed="true"] {
+  color: var(--clay-accent) !important;
+  font-weight: 700 !important;
+}
+
+/* ─── Primary — Violet clay ─── */
+[class*="bg-primary"]:not([role="progressbar"] > *):not(.badge):not([class*="bg-primary\/"]),
+button[class*="bg-primary"],
+[class*="inline-flex"][class*="bg-primary"] {
+  background: linear-gradient(145deg, #a78bfa, #7C3AED) !important;
+  color: #fff !important;
+  box-shadow:
+    6px 6px 12px rgba(124, 58, 237, 0.3),
+    -6px -6px 12px rgba(200, 180, 255, 0.3),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.25),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+[class*="bg-primary"]:not([role="progressbar"] > *):not(.badge):hover,
+button[class*="bg-primary"]:hover,
+[class*="inline-flex"][class*="bg-primary"]:hover {
+  transform: translateY(-4px) !important;
+  box-shadow:
+    8px 8px 16px rgba(124, 58, 237, 0.35),
+    -8px -8px 16px rgba(200, 180, 255, 0.35),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.3),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+[class*="bg-primary"]:not([role="progressbar"] > *):not(.badge):active,
+button[class*="bg-primary"]:active {
+  transform: scale(0.93) translateY(0) !important;
+  box-shadow:
+    2px 2px 4px rgba(124, 58, 237, 0.2),
+    -2px -2px 4px rgba(200, 180, 255, 0.2),
+    inset 5px 5px 10px rgba(0, 0, 0, 0.18),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Outline — Soft clay surface */
+button[class*="border"][class*="bg-transparent"],
+[class*="inline-flex"][class*="border"][class*="bg-transparent"],
+button.outline,
+button[class*="outline"] {
+  background: var(--clay-bg-card) !important;
+  color: var(--clay-fg) !important;
+  box-shadow:
+    4px 4px 8px rgba(150, 145, 190, 0.2),
+    -4px -4px 8px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.06) !important;
+}
+
+button[class*="border"]:hover,
+[class*="inline-flex"][class*="border"][class*="bg-transparent"]:hover {
+  transform: translateY(-3px) !important;
+  box-shadow:
+    6px 6px 12px rgba(150, 145, 190, 0.25),
+    -6px -6px 12px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.7),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.08) !important;
+}
+
+button[class*="border"]:active,
+[class*="inline-flex"][class*="border"][class*="bg-transparent"]:active {
+  transform: scale(0.93) translateY(0) !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(150, 145, 190, 0.12),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ─── SortMenu dropdown ─── */
+.absolute.right-0.mt-1.w-36.origin-top-right.z-20 {
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-md) !important;
+  box-shadow:
+    8px 8px 16px rgba(150, 145, 190, 0.3),
+    -8px -8px 16px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.5),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.06) !important;
+  padding: 6px !important;
+}
+
+.absolute.right-0.mt-1.w-36 button {
+  border-radius: 14px !important;
+  min-height: auto !important;
+  padding: 8px 14px !important;
+  font-size: 0.82rem !important;
+}
+
+.absolute.right-0.mt-1.w-36 button:hover {
+  background: rgba(139, 92, 246, 0.08) !important;
+  color: var(--clay-accent) !important;
+}
+
+/* ─── Chips / Filter Buttons ─── */
+button[class*="rounded-full"][class*="text-sm"],
+button[class*="rounded-full"][class*="px-2"],
+button[class*="rounded-full"][class*="px-3"],
+button[class*="rounded-full"][class*="px-4"] {
+  border-radius: 999px !important;
+  background: var(--clay-bg-card) !important;
+  color: var(--clay-muted-fg) !important;
+  font-weight: 700 !important;
+  box-shadow:
+    4px 4px 8px rgba(150, 145, 190, 0.18),
+    -4px -4px 8px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.06) !important;
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+button[class*="rounded-full"][class*="text-sm"]:hover,
+button[class*="rounded-full"][class*="px-2"]:hover,
+button[class*="rounded-full"][class*="px-3"]:hover,
+button[class*="rounded-full"][class*="px-4"]:hover {
+  transform: translateY(-3px) !important;
+  color: var(--clay-accent) !important;
+}
+
+button[class*="rounded-full"][class*="text-sm"]:active,
+button[class*="rounded-full"][class*="px-2"]:active,
+button[class*="rounded-full"][class*="px-3"]:active,
+button[class*="rounded-full"][class*="px-4"]:active {
+  transform: scale(0.93) !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(150, 145, 190, 0.12),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Selected chip — violet gradient */
+button[class*="rounded-full"][class*="bg-primary"],
+button[class*="rounded-full"][class*="bg-violet"],
+button[class*="rounded-full"][class*="bg-accent"] {
+  background: linear-gradient(145deg, #a78bfa, #7C3AED) !important;
+  color: #fff !important;
+  box-shadow:
+    5px 5px 10px rgba(124, 58, 237, 0.25),
+    -5px -5px 10px rgba(200, 180, 255, 0.25),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.2),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ─── Progress Bars — Recessed groove ─── */
+[role="progressbar"] {
+  height: 12px !important;
+  border-radius: 999px !important;
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(150, 145, 190, 0.15),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.6) !important;
+  overflow: hidden !important;
+}
+
+[role="progressbar"] > div,
+[role="progressbar"] > [class*="bg-primary"] {
+  border-radius: 999px !important;
+  box-shadow:
+    inset 2px 2px 3px rgba(255, 255, 255, 0.4),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Progress colors — macaron pastels */
+[role="progressbar"] > [class*="bg-emerald"],
+[role="progressbar"] > div[class*="bg-green"] {
+  background: linear-gradient(90deg, #86efac, #6DD2A0) !important;
+}
+
+[role="progressbar"] > [class*="bg-yellow"],
+[role="progressbar"] > [class*="bg-amber"] {
+  background: linear-gradient(90deg, #fde68a, #FBCB6D) !important;
+}
+
+[role="progressbar"] > [class*="bg-red"],
+[role="progressbar"] > [class*="bg-rose"] {
+  background: linear-gradient(90deg, #fda4af, #F472B6) !important;
+}
+
+[role="progressbar"] > [class*="bg-blue"],
+[role="progressbar"] > [class*="bg-sky"] {
+  background: linear-gradient(90deg, #93c5fd, #8B5CF6) !important;
+}
+
+/* Cost progress */
+.rounded-full.bg-muted,
+[class*="rounded-full"][class*="bg-muted"] {
+  height: 10px !important;
+  border-radius: 999px !important;
+  background: var(--clay-bg-card) !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(150, 145, 190, 0.12),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.5) !important;
+}
+
+.rounded-full.bg-muted > div,
+[class*="rounded-full"][class*="bg-muted"] > div {
+  border-radius: 999px !important;
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ─── Badges ─── */
+.badge,
+[class*="inline-flex"][class*="items-center"][class*="rounded-md"][class*="border"][class*="px-2"][class*="text-xs"],
+[class*="inline-flex"][class*="rounded-md"][class*="border"][class*="px-2"][class*="py-0"] {
+  border-radius: 999px !important;
+  font-family: 'Nunito', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.03em !important;
+  padding: 3px 12px !important;
+  border: none !important;
+  box-shadow:
+    3px 3px 6px rgba(150, 145, 190, 0.18),
+    -3px -3px 6px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 3px rgba(150, 145, 190, 0.06) !important;
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.badge:hover,
+[class*="inline-flex"][class*="rounded"][class*="border"][class*="px-2"][class*="text-xs"]:hover {
+  transform: scale(1.08) !important;
+}
+
+.badge[class*="bg-primary"],
+[class*="inline-flex"][class*="rounded"][class*="border"][class*="px-2"][class*="bg-primary"] {
+  background: linear-gradient(145deg, #a78bfa, #7C3AED) !important;
+  color: #fff !important;
+}
+
+.badge[class*="outline"],
+[class*="inline-flex"][class*="rounded"][class*="border"][class*="px-2"][class*="outline"],
+[class*="inline-flex"][class*="rounded"][class*="border"][class*="px-2"]:not([class*="bg-primary"]):not([class*="bg-secondary"]):not([class*="bg-destructive"]) {
+  background: var(--clay-bg-card) !important;
+  color: var(--clay-fg) !important;
+}
+
+/* ─── Inputs — Recessed groove ─── */
+input,
+input[type="text"],
+input[type="search"],
+textarea {
+  border-radius: 999px !important;
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  color: var(--clay-fg) !important;
+  box-shadow:
+    inset 5px 5px 10px rgba(150, 145, 190, 0.15),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.6) !important;
+  padding: 12px 20px !important;
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 0.9rem !important;
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+input:focus,
+input[type="text"]:focus,
+input[type="search"]:focus,
+textarea:focus {
+  box-shadow:
+    inset 5px 5px 10px rgba(150, 145, 190, 0.12),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.5),
+    0 0 0 4px rgba(139, 92, 246, 0.15) !important;
+  outline: none !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--clay-muted-fg) !important;
+}
+
+/* ─── Status Dots ─── */
+span.inline-block.w-2.h-2.rounded-full.bg-emerald-500,
+span[class*="w-2"][class*="h-2"][class*="rounded-full"][class*="bg-emerald"] {
+  background: var(--clay-success) !important;
+  box-shadow:
+    0 0 0 4px rgba(109, 210, 160, 0.25),
+    0 0 8px rgba(109, 210, 160, 0.2),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
+  animation: clay-breathe 2.5s ease-in-out infinite !important;
+}
+
+/* Offline dot */
+span.inline-block.w-2.h-2.rounded-full.bg-rose-500,
+span[class*="w-2"][class*="h-2"][class*="rounded-full"][class*="bg-rose"],
+span[class*="w-2"][class*="h-2"][class*="rounded-full"][class*="bg-red"] {
+  background: var(--clay-secondary) !important;
+  box-shadow:
+    0 0 0 4px rgba(244, 114, 182, 0.2),
+    0 0 6px rgba(244, 114, 182, 0.15),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* ─── NodeDetail Overlay ─── */
+.fixed.inset-0.z-50.bg-background {
+  background: var(--clay-bg) !important;
+  background-image:
+    radial-gradient(60rem 36rem at 12% -10%, rgba(139, 92, 246, 0.08), transparent 60%),
+    radial-gradient(48rem 32rem at 95% 0%, rgba(244, 114, 182, 0.06), transparent 60%) !important;
+  background-attachment: fixed !important;
+}
+
+/* Tooltip */
+div[style*="background"][style*="border"][style*="borderRadius"][style*="fontSize: 11"],
+.tooltip-like {
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-sm) !important;
+  box-shadow:
+    6px 6px 12px rgba(150, 145, 190, 0.25),
+    -6px -6px 12px rgba(255, 255, 255, 0.85),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.5),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.05) !important;
+  color: var(--clay-fg) !important;
+}
+
+/* Ring chart containers */
+.card-soft .relative.w-24,
+.card-soft .relative.w-28,
+.card-soft [class*="relative"][class*="w-24"][class*="h-24"],
+.card-soft [class*="relative"][class*="w-28"][class*="h-28"] {
+  background: var(--clay-bg-card) !important;
+  border-radius: 50% !important;
+  box-shadow:
+    inset 5px 5px 10px rgba(150, 145, 190, 0.12),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.65) !important;
+  padding: 6px !important;
+}
+
+/* Spark mini-cards (inside NodeDetail) */
+.rounded-md.border.bg-card\/50,
+[class*="rounded-md"][class*="border"][class*="bg-card\/50"] {
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-md) !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(150, 145, 190, 0.1),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.65) !important;
+}
+
+/* LatencyStatsRow hover (inside NodeDetail) */
+.card-soft [class*="flex"][class*="items-center"][class*="px-2"][class*="py-1"][class*="rounded-md"][class*="cursor-pointer"]:hover {
+  background: rgba(139, 92, 246, 0.08) !important;
+  border-radius: var(--clay-radius-sm) !important;
+}
+
+/* NodeDetail dark mode */
+.dark .fixed.inset-0.z-50.bg-background {
+  background-image:
+    radial-gradient(60rem 36rem at 12% -10%, rgba(139, 92, 246, 0.05), transparent 60%),
+    radial-gradient(48rem 32rem at 95% 0%, rgba(244, 114, 182, 0.04), transparent 60%) !important;
+}
+
+.dark .card-soft .relative.w-24,
+.dark .card-soft .relative.w-28,
+.dark .card-soft [class*="relative"][class*="w-24"][class*="h-24"],
+.dark .card-soft [class*="relative"][class*="w-28"][class*="h-28"] {
+  box-shadow:
+    inset 5px 5px 10px rgba(0, 0, 0, 0.15),
+    inset -5px -5px 10px rgba(80, 70, 130, 0.1) !important;
+}
+
+.dark .rounded-md.border.bg-card\/50,
+.dark [class*="rounded-md"][class*="border"][class*="bg-card\/50"] {
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.12),
+    inset -4px -4px 8px rgba(80, 70, 130, 0.08) !important;
+}
+
+/* ─── Alert — Clay warning/error ─── */
+[role="alert"],
+div[class*="border"][class*="rounded-lg"][class*="bg-card"][class*="text-sm"],
+div[class*="border"][class*="rounded-lg"][class*="p-4"] {
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-md) !important;
+  box-shadow:
+    6px 6px 12px rgba(150, 145, 190, 0.2),
+    -6px -6px 12px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.5),
+    inset -2px -2px 4px rgba(150, 145, 190, 0.05) !important;
+}
+
+/* Warning alert — warm clay accent */
+[role="alert"][class*="warning"],
+[role="alert"][class*="Warning"],
+div[class*="border"][class*="rounded-lg"]:has(svg.text-yellow-500),
+div[class*="border"][class*="rounded-lg"]:has(svg.text-orange-500) {
+  border-left: 4px solid var(--clay-warning) !important;
+  background: linear-gradient(135deg, rgba(251, 203, 109, 0.08), var(--clay-bg-card)) !important;
+}
+
+/* Destructive alert */
+[role="alert"][class*="destructive"],
+div[class*="border"][class*="rounded-lg"]:has(svg.text-red-500),
+div[class*="border"][class*="rounded-lg"]:has(svg.text-destructive) {
+  border-left: 4px solid var(--clay-secondary) !important;
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.08), var(--clay-bg-card)) !important;
+}
+
+/* ─── Footer — Enhanced clay ─── */
+footer,
+footer.border-t {
+  background: var(--clay-bg-card) !important;
+  border: none !important;
+  border-radius: var(--clay-radius-lg) var(--clay-radius-lg) 0 0 !important;
+  box-shadow:
+    0 -6px 12px rgba(150, 145, 190, 0.12),
+    inset 0 4px 8px rgba(255, 255, 255, 0.5),
+    inset 0 -2px 6px rgba(150, 145, 190, 0.06) !important;
+  padding: 1.5rem 0 !important;
+}
+
+footer p, footer span {
+  color: var(--clay-muted-fg) !important;
+}
+
+footer a {
+  color: var(--clay-accent) !important;
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+footer a.text-destructive,
+footer [class*="text-destructive"] {
+  color: var(--clay-secondary) !important;
+  font-weight: 700 !important;
+}
+
+footer a:hover {
+  transform: translateY(-1px) !important;
+}
+
+.dark footer,
+.dark footer.border-t {
+  box-shadow:
+    0 -6px 12px rgba(0, 0, 0, 0.2),
+    inset 0 4px 8px rgba(80, 70, 130, 0.1),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Alert dark mode */
+.dark [role="alert"],
+.dark div[class*="border"][class*="rounded-lg"][class*="bg-card"],
+.dark div[class*="border"][class*="rounded-lg"][class*="p-4"] {
+  box-shadow:
+    6px 6px 12px rgba(0, 0, 0, 0.3),
+    -6px -6px 12px rgba(80, 70, 130, 0.1),
+    inset 2px 2px 4px rgba(80, 70, 130, 0.12),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--clay-bg); }
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 999px;
+  box-shadow:
+    inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.05);
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.35); }
+
+/* ─── Focus States ─── */
+*:focus-visible {
+  outline: 3px solid rgba(139, 92, 246, 0.3) !important;
+  outline-offset: 2px !important;
+}
+
+/* ─── Loading Animation — Claymorphism ─── */
+.clay-loader-logo {
+  animation: clay-logo-breathe 2s ease-in-out infinite !important;
+  box-shadow:
+    8px 8px 16px rgba(150, 145, 190, 0.25),
+    -8px -8px 16px rgba(255, 255, 255, 0.9),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.7),
+    inset -3px -3px 6px rgba(150, 145, 190, 0.08) !important;
+}
+
+.dark .clay-loader-logo {
+  box-shadow:
+    8px 8px 16px rgba(0, 0, 0, 0.35),
+    -8px -8px 16px rgba(80, 70, 130, 0.12),
+    inset 3px 3px 6px rgba(80, 70, 130, 0.18),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.clay-loader {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.clay-loader span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow:
+    3px 3px 6px rgba(150, 145, 190, 0.2),
+    -3px -3px 6px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 3px rgba(150, 145, 190, 0.06) !important;
+  animation: clay-bounce 1.4s ease-in-out infinite both !important;
+}
+
+.dark .clay-loader span {
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.3),
+    -3px -3px 6px rgba(80, 70, 130, 0.1),
+    inset 2px 2px 3px rgba(80, 70, 130, 0.15),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+.clay-loader span:nth-child(1) {
+  background: var(--clay-accent) !important;
+  animation-delay: 0s !important;
+}
+
+.clay-loader span:nth-child(2) {
+  background: var(--clay-secondary) !important;
+  animation-delay: 0.16s !important;
+}
+
+.clay-loader span:nth-child(3) {
+  background: var(--clay-success) !important;
+  animation-delay: 0.32s !important;
+}
+
+/* ─── Animations ─── */
+@keyframes clay-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes clay-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+@keyframes clay-float-alt {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-2deg); }
+}
+
+@keyframes clay-logo-breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.05) rotate(1deg); }
+  50% { transform: scale(0.97) rotate(0deg); }
+  75% { transform: scale(1.03) rotate(-1deg); }
+}
+
+@keyframes clay-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  header { margin: 0.5rem !important; }
+  .card-soft,
+  [class*="rounded-xl"][class*="border"][class*="bg-card"] {
+    border-radius: var(--clay-radius-md) !important;
+    padding: 1.25rem !important;
+  }
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .card-soft:hover,
+  [class*="rounded-xl"][class*="border"][class*="bg-card"]:hover {
+    transform: none !important;
+  }
+}
